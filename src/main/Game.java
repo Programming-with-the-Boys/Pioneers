@@ -34,10 +34,10 @@ public class Game extends JFrame implements Runnable {
 
 		// Initialize renderer
 		renderer = new RenderHandler(this.getWidth(), this.getHeight());
-		
+
 		// Initialize game controller
 		handler = new GameHandler();
-		
+
 		// Start game setup
 		handler.setupGame();
 	}
@@ -73,6 +73,7 @@ public class Game extends JFrame implements Runnable {
 		super.paint(graphics);
 
 		renderer.render(graphics);
+		handler.getGameBoard().render(graphics);
 
 		graphics.dispose();
 		bufferStrategy.show();

@@ -1,6 +1,9 @@
 package board;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import main.ImageHandler;
 
 /*
  * Hex type reference:
@@ -15,14 +18,17 @@ import java.awt.Graphics;
 public class Hex extends GameObject {
 	// Hex Type
 	private int type;
+	private BufferedImage image;
 
 	public Hex(int type) {
 		this.type = type;
+		ImageHandler imageHandle = new ImageHandler();
+		this.image = imageHandle.loadImage("/images/hex.png");
 	}
 
 	@Override
 	void render(Graphics graphics) {
-
+		graphics.drawImage(this.image, this.x, this.y, null);
 	}
 
 	@Override

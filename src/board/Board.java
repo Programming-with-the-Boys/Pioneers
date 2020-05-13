@@ -20,7 +20,6 @@ public class Board extends GameObject {
 
 		while (counter <= 17) {
 			int index = ran.nextInt(5);
-			System.out.println(typeAmounts[index]);
 			if (typeAmounts[index] > 0) {
 				hexes.add(new Hex(index + 1));
 				counter++;
@@ -28,17 +27,23 @@ public class Board extends GameObject {
 			}
 		}
 		hexes.add(6, new Hex(0));
+		
+		int foo = 0;
+		for (Hex h : hexes) {
+			h.setX(foo);
+			foo += 80;
+		}
 	}
 
 	@Override
-	void render(Graphics graphics) {
+	public void render(Graphics graphics) {
 		for (Hex value : hexes) {
 			value.render(graphics);
 		}
 	}
 
 	@Override
-	void update() {
+	public void update() {
 
 	}
 }

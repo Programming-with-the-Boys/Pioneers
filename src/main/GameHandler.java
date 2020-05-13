@@ -13,4 +13,8 @@ public class GameHandler {
 		gameBoard.initializeBoard();
 	}
 
+	public Board getGameBoard() {
+		return this.gameBoard;
+	}
+
 }
