@@ -14,8 +14,6 @@ public class RenderHandler {
 
 	public void render(Graphics graphics) {
 		Graphics g = view.getGraphics();
-		g.setColor(Color.CYAN);
-		g.fillRect(0, 0, 20, 20);
 
 		graphics.drawImage(view, 0, 0, view.getWidth(), view.getHeight(), null);
 	}

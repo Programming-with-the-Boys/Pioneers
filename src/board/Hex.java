@@ -28,7 +28,8 @@ public class Hex extends GameObject {
 
 	@Override
 	void render(Graphics graphics) {
-		graphics.drawImage(this.image, this.x, this.y, null);
+		// graphics.drawImage(this.image, this.x, this.y, null);
+		graphics.drawImage(image, x, y, image.getWidth() / 4, image.getHeight() / 4, null);
 	}
 
 	@Override
@@ -38,6 +39,14 @@ public class Hex extends GameObject {
 
 	public String toString() {
 		return "T: " + this.type;
+	}
+
+	public BufferedImage getImage() {
+		return this.image;
+	}
+
+	public void setImage(BufferedImage img) {
+		this.image = img;
 	}
 
 }
