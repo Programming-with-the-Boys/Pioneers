@@ -22,8 +22,7 @@ public class Hex extends GameObject {
 
 	public Hex(int type) {
 		this.type = type;
-		ImageHandler imageHandle = new ImageHandler();
-		this.image = imageHandle.loadImage("/images/hex.png");
+		ImageHandler.loadImage("/images/hex.png");
 	}
 
 	@Override
@@ -47,6 +46,10 @@ public class Hex extends GameObject {
 
 	public void setImage(BufferedImage img) {
 		this.image = img;
+	}
+
+	public int getType() {
+		return this.type;
 	}
 
 }

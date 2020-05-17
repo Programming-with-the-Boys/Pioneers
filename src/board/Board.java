@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.ImageHandler;
+
 public class Board extends GameObject {
 	ArrayList<Hex> hexes;
 
@@ -17,9 +19,9 @@ public class Board extends GameObject {
 	public void initializeBoard() {
 		// Array with Hex ID (-1 to compensate for Desert tile) as position and amount
 		// of that tile as the number
-		int[] typeAmounts = { 3, 3, 4, 4, 4 };
-		Random ran = new Random();
-		int counter = 0;
+		int[] typeAmounts = { 3, 3, 4, 4, 4 }; // Set amounts
+		Random ran = new Random(); // Create a new Random
+		int counter = 0; // Make a counter to keep tracker of items assigned
 
 		while (counter <= 17) {
 			int index = ran.nextInt(5);
@@ -29,9 +31,18 @@ public class Board extends GameObject {
 				typeAmounts[index]--;
 			}
 		}
-		hexes.add(6, new Hex(0));
+		hexes.add(6, new Hex(0)); //Add the center hex
 
-		// To Test: Label the Tiles
+		// For Testing: Color the tiles
+		String[] nameMap = { "desert", "bricks", "ore", "sheep", "timber", "wheat" };
+		for (int i = 0; i < hexes.size(); i++) {
+			int type = hexes.get(i).getType();
+			String path = "/images/hex" + nameMap[type] + ".png";
+			System.out.println(path);
+			hexes.get(i).setImage(ImageHandler.loadImage(path));
+		}
+
+		// For Testing: Label the Tiles
 		for (int i = 0; i < hexes.size(); i++) {
 			BufferedImage img = hexes.get(i).getImage();
 			System.out.println(hexes.get(i).toString());
@@ -45,16 +56,14 @@ public class Board extends GameObject {
 		}
 
 		// Set hex positions on the board
-		double[][] hexPositions = { { 0, -5.402 }, { 1.560, -2.701 }, { 3.119, -5.402 }, { 1.560, -8.104 },
-				{ 3.119, 0 }, { 4.679, -2.701 }, { 6.238, -5.402 }, { 4.679, -8.104 }, { 3.119, -10.805 }, { 6.238, 0 },
-				{ 7.798, -2.701 }, { 9.357, -5.402 }, { 7.798, -8.104 }, { 6.238d, -10.805 }, { 9.357, 0 },
-				{ 10.917, -2.701 }, { 12.476, -5.402 }, { 10.917, -8.104 }, { 9.357, -10.805 } };
-
-		double scale = 55.0;
-		int offset = 100;
-		for (int i = 0; i < hexPositions.length; i++) {
-			hexes.get(i).setX((int) (hexPositions[i][0] * scale) + offset);
-			hexes.get(i).setY((int) (hexPositions[i][1] * scale) + offset + 500);
+		double[][] hexPositions = { { 5.402, 0 }, { 2.701, -1.560 }, { 5.402, -3.119 }, { 8.104, -1.560 },
+				{ 0, -3.119 }, { 2.701, -4.679 }, { 5.402, -6.238 }, { 8.104, -4.679 }, { 10.805, -3.119 },
+				{ 0, -6.238 }, { 2.701, -7.798 }, { 5.402, -9.357 }, { 8.104, -7.798 }, { 10.805, -6.238 },
+				{ 0, -9.357 }, { 2.701, -10.917 }, { 5.402, -12.476 }, { 8.104, -10.917 }, { 10.805, -9.357 } };
+		double scale = 36.7;
+		for (int i = hexPositions.length - 1; i >= 0; i--) {
+			hexes.get(i).setX((int) ((hexPositions[i][0] * -1) * scale) + 600);
+			hexes.get(i).setY((int) ((hexPositions[i][1] * -1) * scale) + 100);
 		}
 	}
 
