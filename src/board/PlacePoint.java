@@ -13,7 +13,7 @@ public class PlacePoint extends GameObject {
 	@Override
 	void render(Graphics graphics) {
 		graphics.setColor(Color.RED);
-		graphics.fillRect(x, y, 20, 20);
+		graphics.fillRect(x, y, 8, 8);
 	}
 
 	@Override

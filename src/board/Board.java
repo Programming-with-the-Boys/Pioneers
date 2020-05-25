@@ -91,11 +91,15 @@ public class Board extends GameObject {
 				{ 10.805, -14.036 }, { 9.004, -14.036 }, { 8.104, -12.476 }, { 11.705, -9.357 }, { 13.506, -9.357 },
 				{ 14.406, -10.917 }, { 13.506, -12.476 }, { 11.705, -12.476 }, { 10.805, -10.917 } };
 		for (int i = pointPositions.length - 1; i >= 0; i--) {
-			points.add(new PlacePoint((int) ((pointPositions[i][0] * -1) * scale) + 720,
-					(int) ((pointPositions[i][1] * -1) * scale) + 90));
+			// points.add(new PlacePoint((int) ((pointPositions[i][0] * -1) * scale) + 720,
+			// (int) ((pointPositions[i][1] * -1) * scale) + 90));
 		}
-		
-		
+
+		// For Testing: Find center of tiles
+		for (int i = 0; i < hexes.size(); i++) {
+			Hex mod = hexes.get(i);
+			points.add(new PlacePoint((int) (mod.getX() + 60), (int) (mod.getY() + 52)));
+		}
 
 	}
 
