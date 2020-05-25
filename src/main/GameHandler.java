@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import board.Board;
 
 public class GameHandler {
-	private Board gameBoard = new Board();
+	private Board gameBoard;
 
 	// Generates game layout
 	public void setupGame() {
-		gameBoard.initializeBoard();
+		this.gameBoard = new Board();
 	}
 
 	public void render(Graphics graphics) {

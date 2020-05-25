@@ -18,13 +18,16 @@ public class Game extends JFrame implements Runnable {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Set frame position
-		this.setBounds(0, 0, 1000, 800);
+		this.setBounds(0, 0, 1000, 1000);
 
 		// Put frame in the center of the screen
 		this.setLocationRelativeTo(null);
 
 		// Add the editable graphics component
 		this.add(canvas);
+
+		// Make it not resizeable (temporary)
+		this.setResizable(false);
 
 		// Make the frame visible
 		this.setVisible(true);
@@ -40,6 +43,8 @@ public class Game extends JFrame implements Runnable {
 
 		// Start game setup
 		handler.setupGame();
+		
+		
 	}
 
 	@Override
