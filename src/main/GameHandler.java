@@ -1,9 +1,8 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.awt.Graphics;
+
 import board.Board;
-import board.Hex;
 
 public class GameHandler {
 	private Board gameBoard = new Board();
@@ -13,8 +12,8 @@ public class GameHandler {
 		gameBoard.initializeBoard();
 	}
 
-	public Board getGameBoard() {
-		return this.gameBoard;
+	public void render(Graphics graphics) {
+		this.gameBoard.render(graphics);
 	}
 
 }

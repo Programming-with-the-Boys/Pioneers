@@ -73,7 +73,7 @@ public class Game extends JFrame implements Runnable {
 		super.paint(graphics);
 
 		renderer.render(graphics);
-		handler.getGameBoard().render(graphics);
+		handler.render(graphics);
 
 		graphics.dispose();
 		bufferStrategy.show();
