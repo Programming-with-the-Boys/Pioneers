@@ -3,8 +3,6 @@ package main;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
