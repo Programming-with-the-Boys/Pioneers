@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -8,7 +9,7 @@ public class Gui {
 	private int width, height;
 	private int x, y;
 
-	public Gui(int width, int height, int x, int y) {
+	public Gui(int x, int y, int width, int height) {
 		area = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		this.width = width;
 		this.height = height;
@@ -16,6 +17,15 @@ public class Gui {
 		this.y = y;
 	}
 
+	public void render(Graphics g) {
+		Graphics imgGraphics = this.area.getGraphics();
+		imgGraphics.setColor(Color.WHITE);
+		imgGraphics.fillRect(0, 0, this.area.getWidth(), this.area.getHeight());
+
+		g.drawImage(this.area, this.x, this.y, null);
+	}
+
+	// Getters and Setters
 	public Graphics getGraphics() {
 		return this.area.getGraphics();
 	}

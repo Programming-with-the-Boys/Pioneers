@@ -2,16 +2,18 @@ package board;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class PlacePoint extends GameObject {
 	private int size;
 	private boolean isVisible;
+	private Rectangle bounds;
 
 	public PlacePoint(int x, int y, int size) {
 		this.x = x;
 		this.y = y;
 		this.size = size;
-		this.isVisible = false;
+		this.bounds = new Rectangle(size, size);
 	}
 
 	@Override
@@ -28,6 +30,10 @@ public class PlacePoint extends GameObject {
 	}
 
 	// Getters and Setters
+	public Rectangle getBounds() {
+		return this.bounds;
+	}
+
 	public void setVisible(boolean b) {
 		this.isVisible = b;
 	}
