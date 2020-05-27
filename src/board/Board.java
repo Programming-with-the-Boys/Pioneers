@@ -8,12 +8,15 @@ import main.ImageHandler;
 import utils.ArrayUtil;
 
 public class Board extends GameObject {
-	ArrayList<Hex> hexes;
-	ArrayList<PlacePoint> points;
+	private ArrayList<Hex> hexes;
+	private ArrayList<PlacePoint> points;
+	private ArrayList<Settlement> settlements;
 
 	public Board() {
 		this.hexes = new ArrayList<Hex>();
 		this.points = new ArrayList<PlacePoint>();
+		this.settlements = new ArrayList<Settlement>();
+
 		this.initializeBoard();
 	}
 
@@ -101,9 +104,12 @@ public class Board extends GameObject {
 		for (Hex value : hexes) {
 			value.render(graphics);
 		}
-		// Render the place points if they want to be rendered
-		// Rendering of points is controlled by points
+		// Render PlacePoints
 		for (PlacePoint value : points) {
+			value.render(graphics);
+		}
+		// Render Settlements
+		for (Settlement value : settlements) {
 			value.render(graphics);
 		}
 	}
@@ -112,4 +118,30 @@ public class Board extends GameObject {
 	public void update() {
 
 	}
+
+	// Getters and Setters
+	public ArrayList<Hex> getHexes() {
+		return hexes;
+	}
+
+	public void setHexes(ArrayList<Hex> hexes) {
+		this.hexes = hexes;
+	}
+
+	public ArrayList<Settlement> getSettlements() {
+		return settlements;
+	}
+
+	public void setSettlements(ArrayList<Settlement> settlements) {
+		this.settlements = settlements;
+	}
+
+	public ArrayList<PlacePoint> getPoints() {
+		return this.points;
+	}
+
+	public void setPoints(ArrayList<PlacePoint> points) {
+		this.points = points;
+	}
+
 }

@@ -5,7 +5,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseListen implements MouseListener, FocusListener {
+public class MouseEventListener implements MouseListener, FocusListener {
 	public boolean[] keys = new boolean[4];
 	public int x, y;
 

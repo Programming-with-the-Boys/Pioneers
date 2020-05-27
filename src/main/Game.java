@@ -12,7 +12,7 @@ public class Game extends JFrame implements Runnable {
 	private Canvas canvas = new Canvas();
 	private RenderHandler renderer;
 	private GameHandler handler;
-	private MouseListen mouseListener;
+	private MouseEventListener mouseListener;
 
 	public Game() {
 		// Set what happens when window is closed
@@ -40,7 +40,7 @@ public class Game extends JFrame implements Runnable {
 		renderer = new RenderHandler(this.getWidth(), this.getHeight());
 
 		// Instantiate MouseListener
-		mouseListener = new MouseListen();
+		mouseListener = new MouseEventListener();
 
 		// Add listener to Canvas
 		canvas.addMouseListener(mouseListener);
@@ -50,7 +50,7 @@ public class Game extends JFrame implements Runnable {
 		handler = new GameHandler();
 
 		// Start game setup
-		handler.setupGame(this.mouseListener);
+		handler.setupGame(this, this.mouseListener);
 	}
 
 	@Override
@@ -91,9 +91,6 @@ public class Game extends JFrame implements Runnable {
 	}
 
 	public void update() {
-		if(mouseListener.keys[1]) {
-			System.out.println(mouseListener.x + " " + mouseListener.y);
-		}
 
 	}
 

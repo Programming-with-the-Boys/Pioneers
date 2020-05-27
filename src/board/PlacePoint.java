@@ -5,18 +5,20 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import main.MouseListen;
+import main.MouseEventListener;
 
 public class PlacePoint extends GameObject {
 	private int size;
 	private boolean isVisible;
-	private boolean isClicked;
+	private boolean enabled;
 	private Rectangle bounds;
 
 	public PlacePoint(int x, int y, int size) {
 		this.x = x;
 		this.y = y;
 		this.size = size;
+		this.enabled = true;
+		this.isVisible = false;
 		this.bounds = new Rectangle(size, size);
 	}
 
@@ -33,16 +35,33 @@ public class PlacePoint extends GameObject {
 
 	}
 
-	// Strange methods
-	public boolean removeSelf(ArrayList<PlacePoint> arrayList) {
-		return arrayList.remove(this);
+	// Methods
+	public boolean onObject(int x, int y) {
+		int correctedX = this.x - size + 15;
+		int correctedY = this.y - size + 15;
+		if (x >= correctedX && x <= correctedX + size && y >= correctedY && y <= correctedY + size) {
+			return true;
+		}
+		return false;
 	}
 
-	public void isClicked(MouseListen listen) {
-
+	public String toString() {
+		return this.x + ", " + this.y;
 	}
 
 	// Getters and Setters
+	public void setEnabled(boolean foo) {
+		this.enabled = foo;
+	}
+	
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+	
+	public int getSize() {
+		return this.size;
+	}
+
 	public Rectangle getBounds() {
 		return this.bounds;
 	}
