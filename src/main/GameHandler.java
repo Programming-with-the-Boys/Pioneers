@@ -26,10 +26,10 @@ public class GameHandler {
 		this.players.add(new LocalPlayer("Bot3"));
 		this.players.add(new LocalPlayer("Bot4"));
 	}
-
-	public void firstPicks() {
-
-	}
+	
+	
+	
+	
 
 	public void render(Graphics graphics) {
 		this.gameBoard.render(graphics);

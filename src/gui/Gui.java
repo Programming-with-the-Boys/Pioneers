@@ -8,6 +8,7 @@ public class Gui {
 	BufferedImage area;
 	private int width, height;
 	private int x, y;
+	private Color backgroundColor;
 
 	public Gui(int x, int y, int width, int height) {
 		area = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -15,13 +16,18 @@ public class Gui {
 		this.height = height;
 		this.x = x;
 		this.y = y;
+		this.backgroundColor = Color.WHITE;
 	}
 
 	public void render(Graphics g) {
+		// Grab graphics of image
 		Graphics imgGraphics = this.area.getGraphics();
-		imgGraphics.setColor(Color.WHITE);
+
+		// Fill in background color
+		imgGraphics.setColor(this.backgroundColor);
 		imgGraphics.fillRect(0, 0, this.area.getWidth(), this.area.getHeight());
 
+		// Draw modified image
 		g.drawImage(this.area, this.x, this.y, null);
 	}
 
