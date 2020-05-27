@@ -3,6 +3,8 @@ package main;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Arrays;
+
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
@@ -48,7 +50,7 @@ public class Game extends JFrame implements Runnable {
 		handler = new GameHandler();
 
 		// Start game setup
-		handler.setupGame();
+		handler.setupGame(this.mouseListener);
 	}
 
 	@Override
@@ -89,6 +91,12 @@ public class Game extends JFrame implements Runnable {
 	}
 
 	public void update() {
+		boolean[] keys = this.mouseListener.keys;
+		for (boolean value : keys) {
+			if (value) {
+				System.out.println(Arrays.toString(keys));
+			}
+		}
 
 	}
 

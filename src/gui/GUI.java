@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class Gui {
+public class GUI {
 	BufferedImage area;
 	private int width, height;
 	private int x, y;
 	private Color backgroundColor;
 
-	public Gui(int x, int y, int width, int height) {
+	public GUI(int x, int y, int width, int height) {
 		area = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		this.width = width;
 		this.height = height;
@@ -34,6 +34,10 @@ public class Gui {
 	// Getters and Setters
 	public Graphics getGraphics() {
 		return this.area.getGraphics();
+	}
+
+	public void setBackgroundColor(Color c) {
+		this.backgroundColor = c;
 	}
 
 	public int getWidth() {

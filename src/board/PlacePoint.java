@@ -3,10 +3,14 @@ package board;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+
+import main.MouseListen;
 
 public class PlacePoint extends GameObject {
 	private int size;
 	private boolean isVisible;
+	private boolean isClicked;
 	private Rectangle bounds;
 
 	public PlacePoint(int x, int y, int size) {
@@ -26,6 +30,15 @@ public class PlacePoint extends GameObject {
 
 	@Override
 	void update() {
+
+	}
+
+	// Strange methods
+	public boolean removeSelf(ArrayList<PlacePoint> arrayList) {
+		return arrayList.remove(this);
+	}
+
+	public void isClicked(MouseListen listen) {
 
 	}
 
