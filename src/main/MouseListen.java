@@ -9,7 +9,7 @@ public class MouseListen implements MouseListener, FocusListener {
 	public boolean[] keys = new boolean[4];
 	public int x, y;
 
-	// Button clicked
+	// Button clicked (up and down) DO NOT USE
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
@@ -18,8 +18,7 @@ public class MouseListen implements MouseListener, FocusListener {
 	// Push down
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int keycode = e.getButton();
-		this.keys[keycode] = true;
+		this.keys[e.getButton()] = true;
 		this.x = e.getX();
 		this.y = e.getY();
 	}
@@ -27,9 +26,7 @@ public class MouseListen implements MouseListener, FocusListener {
 	// Pull up
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		for (int i = 0; i < keys.length; i++) {
-			keys[i] = false;
-		}
+		keys[e.getButton()] = false;
 	}
 
 	@Override

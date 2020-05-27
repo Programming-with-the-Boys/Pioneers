@@ -28,6 +28,15 @@ public class GameHandler {
 		this.players.add(new LocalPlayer("Bot3"));
 		this.players.add(new LocalPlayer("Bot4"));
 	}
+	
+	public void placeSettlement(Player p) {
+		boolean validPosition = false;
+		while(!validPosition) {
+			if(this.mouseListener.keys[1]) {
+				
+			}
+		}
+	}
 
 	public void render(Graphics graphics) {
 		this.gameBoard.render(graphics);

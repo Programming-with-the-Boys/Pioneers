@@ -21,6 +21,9 @@ public class Hex extends GameObject {
 	private int amount;
 	private BufferedImage image;
 
+	// Some stuff for indetifying type
+	public static final int DESERT = 0, BRICK = 1, ORE = 2, SHEEP = 3, TIMBER = 4, WHEAT = 5;
+
 	public Hex(int type) {
 		this.type = type;
 		this.amount = 0;

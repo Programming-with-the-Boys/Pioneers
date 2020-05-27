@@ -91,11 +91,8 @@ public class Game extends JFrame implements Runnable {
 	}
 
 	public void update() {
-		boolean[] keys = this.mouseListener.keys;
-		for (boolean value : keys) {
-			if (value) {
-				System.out.println(Arrays.toString(keys));
-			}
+		if(mouseListener.keys[1]) {
+			System.out.println(mouseListener.x + " " + mouseListener.y);
 		}
 
 	}
