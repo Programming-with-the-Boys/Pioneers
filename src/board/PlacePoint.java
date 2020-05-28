@@ -5,13 +5,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import main.MouseEventListener;
-
 public class PlacePoint extends GameObject {
 	private int size;
-	private boolean isVisible;
-	private boolean enabled;
 	private Rectangle bounds;
+
+	private boolean enabled;
+	private boolean isVisible;
+
+	private ArrayList<Hex> surroundingHexes;
 
 	public PlacePoint(int x, int y, int size) {
 		this.x = x;
@@ -20,6 +21,7 @@ public class PlacePoint extends GameObject {
 		this.enabled = true;
 		this.isVisible = false;
 		this.bounds = new Rectangle(size, size);
+		this.surroundingHexes = new ArrayList<Hex>();
 	}
 
 	@Override
@@ -53,11 +55,11 @@ public class PlacePoint extends GameObject {
 	public void setEnabled(boolean foo) {
 		this.enabled = foo;
 	}
-	
+
 	public boolean isEnabled() {
 		return this.enabled;
 	}
-	
+
 	public int getSize() {
 		return this.size;
 	}

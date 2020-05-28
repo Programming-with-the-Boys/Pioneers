@@ -11,10 +11,13 @@ public class Settlement extends GameObject {
 	private Player owner;
 	private Rectangle bounds;
 	private BufferedImage img;
+	private PlacePoint originPoint;
 
-	public Settlement(int x, int y) {
+	public Settlement(int x, int y, Player owner, PlacePoint originPoint) {
 		this.x = x;
 		this.y = y;
+		this.owner = owner;
+		this.originPoint = originPoint;
 		this.bounds = new Rectangle(10, 10);
 	}
 
