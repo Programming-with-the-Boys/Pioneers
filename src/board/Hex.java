@@ -27,7 +27,19 @@ public class Hex extends GameObject {
 	public Hex(int type) {
 		this.type = type;
 		this.number = 0;
-		ImageHandler.loadImage("/images/hex.png");
+	}
+
+	public Hex(int type, int number) {
+		this.type = type;
+		this.number = number;
+	}
+
+	public Hex(int x, int y, int type, int number) {
+		this.x = x;
+		this.y = y;
+		this.type = type;
+		this.number = number;
+		this.image = ImageHandler.loadImage("/images/hex.png");
 	}
 
 	@Override

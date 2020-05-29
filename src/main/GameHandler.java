@@ -1,10 +1,12 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
 import board.Board;
+import board.Hex;
 import board.PlacePoint;
 import board.Settlement;
 import gui.DiceInfo;
@@ -26,19 +28,18 @@ public class GameHandler {
 		this.game = game;
 		this.mouseListener = mouseListener;
 		this.players = new ArrayList<Player>();
-		
-		
+
 		this.infoGUI = new GUI(0, 700, 1000, 300);
-		this.infoGUI.setInfo(new PlayerInfo(this.infoGUI.getX(), this.infoGUI.getY(), this.infoGUI.getWidth(), this.infoGUI.getHeight()));
+		this.infoGUI.setInfo(new PlayerInfo(this.infoGUI.getX(), this.infoGUI.getY(), this.infoGUI.getWidth(),
+				this.infoGUI.getHeight()));
 		this.infoGUI.setDiceInfo(new DiceInfo(this.infoGUI.getWidth() - 200, 30));
 
 		// Test Player Setup
 		this.players.add(new LocalPlayer("Bot1"));
-		this.players.add(new LocalPlayer("Bot2"));
-		
-		Player p = new LocalPlayer("Hi");
+		// this.players.add(new LocalPlayer("Bot2"));
 
 		this.initialPlacement();
+		this.runGame();
 	}
 
 	public void render(Graphics graphics) {
@@ -69,19 +70,37 @@ public class GameHandler {
 	public void runGame() {
 		Random ran = new Random();
 		while (!this.wonGame(this.players)) {
-			for(int i = 0; i < this.players.size(); i++) {
+			for (int i = 0; i < this.players.size(); i++) {
 				// Roll dice
-				int roll = (ran.nextInt(11) + 1);
-				
+				// int roll = (ran.nextInt(11) + 1);
+				int roll = 10;
+
 				// Update GUI
 				this.infoGUI.getDiceInfo().setLastRoll(roll);
 				this.game.render();
+
+				for (Settlement settlement : this.gameBoard.getSettlements()) {
+					System.out.println(settlement.toString());
+					
+					if (settlement.getOwner().equals(this.players.get(i))) {
+						System.out.println(settlement.getOwner().getName());
+						
+						for (Hex hex : settlement.getSurroundingHexes()) {
+							System.out.println(hex.toString());
+							
+							if (hex.getNumber() == roll) {
+								this.players.get(i).getResources()[hex.getType() - 1]++;
+								System.out.println(hex.getType());
+							}
+						}
+					}
+				}
 				
-				
-				
-				
+				while(true) {
+					game.render();
+				}
 			}
-			
+
 		}
 	}
 

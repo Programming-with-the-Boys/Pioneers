@@ -57,68 +57,40 @@ public class Board extends GameObject {
 		// Random for future use
 		Random ran = new Random();
 
-		// Initialize the Type of the Hexes
-		int[] typeAmounts = { 3, 3, 4, 4, 4 };
-
-		int counter = 0;
-		while (counter <= 17) {
-			// Find random index in bounds of the array
-			int index = ran.nextInt(typeAmounts.length);
-
-			if (typeAmounts[index] != 0) {
-				// Correct for desert tile index offset
-				this.hexes.add(new Hex(index + 1));
-
-				typeAmounts[index]--;
-				counter++;
-			}
-		}
-		// Add desert hex to the center of the board
-		hexes.add(6, new Hex(0));
-
-		// Initialize the numbers of the hexes (what you get when you roll it)
+		double scale = 164;
+		int[] typeAmounts = { 0, 3, 3, 4, 4, 4 };
 		ArrayList<Integer> numbers = Utils
 				.intArraytoArrayList(new int[] { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 });
-		for (int i = 0; i < hexes.size(); i++) {
+		
+		for (int i = 0; i < this.hexPositions.length; i++) {
 			if (i != 6) {
-				int index = ran.nextInt(numbers.size());
-				hexes.get(i).setNumber((int) numbers.get(index));
-				numbers.remove(index);
-			}
-		}
+				// Get X and Y Coordinates
+				int x = (int) (hexPositions[i][0] * scale) + 200;
+				int y = (int) (hexPositions[i][1] * scale) + 50;
+				
+				// Get type
+				int type = 0;
+				int amount = typeAmounts[type];
+				while (amount <= 0) {
+					type = ran.nextInt(typeAmounts.length);
+					amount = typeAmounts[type];
+				}
 
-		// Set Hex positions
-		double scale = 164;
-		for (int i = hexPositions.length - 1; i >= 0; i--) {
-			hexes.get(i).setX((int) (hexPositions[i][0] * scale) + 200);
-			hexes.get(i).setY((int) (hexPositions[i][1] * scale) + 50);
-		}
+				// Get Number
+				Integer number = numbers.get(ran.nextInt(numbers.size()));
 
-		// Set the color of the Hexes
-		String[] nameMap = { "desert", "bricks", "ore", "sheep", "timber", "wheat" };
-		for (int i = 0; i < hexes.size(); i++) {
-			int type = hexes.get(i).getType();
-			String path = "/images/hex" + nameMap[type] + ".png";
-			hexes.get(i).setImage(ImageHandler.loadImage(path));
-		}
+				// Add the object
+				hexes.add(new Hex(x, y, type, number));
 
-		// Fill in numbers on the Hexes
-		for (int i = 0; i < this.hexes.size(); i++) {
-			Graphics hexGraphics = hexes.get(i).getImage().getGraphics();
-			
-			hexGraphics.setColor(Color.CYAN);
-			hexGraphics.setFont(new Font("Corbel", Font.PLAIN, 35));
-		}
+				// Clean up
+				numbers.remove(number);
+				typeAmounts[type]--;
+			} else {
+				// Get X and Y Coordinates
+				int x = (int) (hexPositions[i][0] * scale) + 200;
+				int y = (int) (hexPositions[i][1] * scale) + 50;
 
-		// Setup the PlacePoints on the board
-		for (int i = 0; i < pointPositions.length; i++) {
-			// Add new point using coordinates, scale factor from before, and arb val
-			points.add(new PlacePoint((int) (pointPositions[i][0] * scale) + 5 + 200,
-					(int) (pointPositions[i][1] * scale) + 5 + 50, 20));
-
-			// Setup surrounding hexes
-			for (int a = 0; a < this.pointCorrelations[i].length; a++) {
-				this.points.get(points.size() - 1).getSurroundingHexes().add(this.hexes.get(a));
+				hexes.add(new Hex(x, y, 0, 0));
 			}
 		}
 	}
