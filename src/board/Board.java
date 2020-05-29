@@ -36,6 +36,12 @@ public class Board extends GameObject {
 			{ 7, 13, 8 }, { 8, 13 }, { 9, 10, 5 }, { 10, 6, 5 }, { 6, 12, 7 }, { 12, 13, 7 }, { 14, 9 }, { 14, 10, 9 },
 			{ 10, 11, 6 }, { 11, 12, 6 }, { 12, 18, 13 }, { 13, 18 }, { 14, 15, 10 }, { 15, 11, 10 }, { 11, 17, 12 },
 			{ 17, 19, 12 }, { 14, 15 }, { 15, 16, 11 }, { 16, 17, 11 }, { 17, 18 }, { 15, 16 }, { 16, 17 } };
+	// Point correlation with surrounding points
+	private final int[][] pointSurroundings = { { 3 }, { 4 }, { 6 }, { 0, 7, 4 }, { 1, 3, 8 }, { 9 }, { 2, 11, 7 },
+			{ 3, 6, 12 }, { 4, 13, 9 }, { 5, 8, 14 }, { 11 }, { 6, 10, 16 }, { 7, 17, 13 }, { 8, 12, 18 },
+			{ 9, 19, 15 }, { 14 }, { 11, 21, 17 }, { 12, 16, 22 }, { 13, 23, 19 }, { 14, 18, 24 }, { 21 },
+			{ 16, 20, 26 }, { 17, 27, 23 }, { 18, 22, 28 }, { 19, 29, 25 }, { 24 }, { 21, 30, 27 }, { 22, 26, 31 },
+			{ 23, 32, 29 }, { 24, 28, 33 }, { 26 }, { 27, 34, 32 }, { 31, 28, 35 }, { 29 }, { 31 }, { 32 } };
 
 	public Board() {
 		this.hexes = new ArrayList<Hex>();
@@ -109,6 +115,8 @@ public class Board extends GameObject {
 	}
 
 	// Utility methods for the GameHandler to use
+
+	// Show points if they are enabled
 	public void showPoints() {
 		// Only show points if enabled
 		for (PlacePoint point : this.points) {
@@ -118,9 +126,25 @@ public class Board extends GameObject {
 		}
 	}
 
+	// Sets the visibility of all points to invisible
 	public void hidePoints() {
 		for (PlacePoint point : this.points) {
 			point.setVisible(false);
+		}
+	}
+
+	// Disable the surrounding points based on the found position of the input point
+	public void disableSurroundingPoints(PlacePoint point) {
+		int pointIndex = this.points.indexOf(point);
+		for (int i = 0; i < this.pointSurroundings[pointIndex].length; i++) {
+			this.points.get(this.pointSurroundings[pointIndex][i]).setEnabled(false);
+		}
+	}
+
+	// Disable points based on the index of the point in the Array
+	public void disableSurroundingPoints(int pointIndex) {
+		for (int i = 0; i < this.pointSurroundings[pointIndex].length; i++) {
+			this.points.get(this.pointSurroundings[pointIndex][i]).setEnabled(false);
 		}
 	}
 

@@ -76,6 +76,7 @@ public class GameHandler {
 								.add(new Settlement(point.getX() - 6, point.getY() - 6, p, point));
 						point.setEnabled(false);
 						point.setVisible(false);
+						this.gameBoard.disableSurroundingPoints(point);
 						p.addVictoryPoints(1);
 						placed = true; // Stop loop
 					}
@@ -92,8 +93,8 @@ public class GameHandler {
 
 	}
 
-	public void obtainResources(int roll) {
-
+	public void obtainResources(int diceRoll) {
+		
 	}
 
 	// Getters and Setters
