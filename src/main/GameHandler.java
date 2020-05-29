@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -12,25 +14,43 @@ import player.Player;
 
 public class GameHandler {
 	private Game game;
-	private GUI mainGui;
+	private GUI infoGUI;
 	private Board gameBoard;
 	private ArrayList<Player> players;
 	private MouseEventListener mouseListener;
 
-	// Generates game layout
 	public void setupGame(Game game, MouseEventListener mouseListener) {
 		// SetupStuff?
 		this.gameBoard = new Board();
-		this.mainGui = new GUI(0, 700, 1000, 300);
-		this.mouseListener = mouseListener;
 		this.game = game;
+		this.mouseListener = mouseListener;
+		this.infoGUI = new GUI(0, 700, 1000, 300);
 
 		// Test Setup
 		this.players = new ArrayList<Player>();
 		this.players.add(new LocalPlayer("Bot1"));
 		this.players.add(new LocalPlayer("Bot2"));
-		this.players.add(new LocalPlayer("Bot3"));
-		this.players.add(new LocalPlayer("Bot4"));
+
+		this.initialPlacement();
+		this.infoGUI.setPlayer(players.get(0));
+	}
+
+	public void render(Graphics graphics) {
+		this.gameBoard.render(graphics);
+		this.infoGUI.render(graphics);
+	}
+
+	public void initialPlacement() {
+		// Go top to bottom placing settlments
+		for (int i = 0; i < this.players.size(); i++) {
+			this.placeSettlement(this.players.get(i));
+			// TODO: Place roads (here)
+		}
+
+		// Go from bottom to top placing settlements
+		for (int i = this.players.size() - 1; i >= 0; i--) {
+			this.placeSettlement(this.players.get(i));
+		}
 
 	}
 
@@ -56,20 +76,33 @@ public class GameHandler {
 								.add(new Settlement(point.getX() - 6, point.getY() - 6, p, point));
 						point.setEnabled(false);
 						point.setVisible(false);
+						p.addVictoryPoints(1);
 						placed = true; // Stop loop
 					}
 				}
 			}
 		}
 
-		// Make PlacePoints in-visible again
+		// Make PlacePoints invisible again
 		this.gameBoard.hidePoints();
 		game.render();
 	}
 
-	public void render(Graphics graphics) {
-		this.gameBoard.render(graphics);
-		this.mainGui.render(graphics);
+	public void placeRoad(Player p) {
+
+	}
+
+	public void obtainResources(int roll) {
+
+	}
+
+	// Getters and Setters
+	public ArrayList<Player> getPlayers() {
+		return this.players;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 
 }

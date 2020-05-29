@@ -8,7 +8,8 @@ import java.util.Arrays;
 import javax.swing.JFrame;
 
 public class Game extends JFrame implements Runnable {
-
+	
+	
 	private Canvas canvas = new Canvas();
 	private RenderHandler renderer;
 	private GameHandler handler;

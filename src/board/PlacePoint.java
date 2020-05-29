@@ -47,10 +47,6 @@ public class PlacePoint extends GameObject {
 		return false;
 	}
 
-	public String toString() {
-		return this.x + ", " + this.y;
-	}
-
 	// Getters and Setters
 	public void setEnabled(boolean foo) {
 		this.enabled = foo;
@@ -74,6 +70,10 @@ public class PlacePoint extends GameObject {
 
 	public boolean getVisible() {
 		return this.isVisible;
+	}
+	
+	public ArrayList<Hex> getSurroundingHexes() {
+		return this.surroundingHexes;
 	}
 
 }

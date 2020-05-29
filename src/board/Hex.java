@@ -18,7 +18,7 @@ import main.ImageHandler;
 public class Hex extends GameObject {
 	// Hex Type
 	private int type;
-	private int amount;
+	private int number;
 	private BufferedImage image;
 
 	// Some stuff for indetifying type
@@ -26,7 +26,7 @@ public class Hex extends GameObject {
 
 	public Hex(int type) {
 		this.type = type;
-		this.amount = 0;
+		this.number = 0;
 		ImageHandler.loadImage("/images/hex.png");
 	}
 
@@ -41,12 +41,18 @@ public class Hex extends GameObject {
 
 	}
 
-	public int getAmount() {
-		return amount;
+	// Methods
+	public String toString() {
+		return "T: " + this.type + " N:" + this.number;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	// Getters and Setters
+	public int getNumber() {
+		return this.number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	public int getType() {
@@ -55,10 +61,6 @@ public class Hex extends GameObject {
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	public String toString() {
-		return "T: " + this.type;
 	}
 
 	public BufferedImage getImage() {

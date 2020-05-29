@@ -1,65 +1,93 @@
 package board;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
+import main.Game;
 import main.ImageHandler;
 import utils.Utils;
 
 public class Board extends GameObject {
+	// Setup storage for things
 	private ArrayList<Hex> hexes;
 	private ArrayList<PlacePoint> points;
 	private ArrayList<Settlement> settlements;
+	private ArrayList<City> cities;
+
+	// Declare static variables
+	// Positions of Hexes on the board
+	private final double[][] hexPositions = { { 1.26, 0.00 }, { 0.63, 0.36 }, { 1.26, 0.71 }, { 1.89, 0.36 },
+			{ 0.00, 0.71 }, { 0.63, 1.07 }, { 1.26, 1.42 }, { 1.89, 1.07 }, { 2.52, 0.71 }, { 0.00, 1.42 },
+			{ 0.63, 1.78 }, { 1.26, 2.13 }, { 1.89, 1.78 }, { 2.52, 1.42 }, { 0.00, 2.13 }, { 0.63, 2.49 },
+			{ 1.26, 2.84 }, { 1.89, 2.49 }, { 2.52, 2.13 } };
+	// Positions of PlacePoints on the board
+	private final double[][] pointPositions = { { 1.19, 0.29 }, { 2.00, 0.29 }, { 0.56, 0.65 }, { 1.40, 0.65 },
+			{ 1.80, 0.65 }, { 2.66, 0.65 }, { 0.75, 1.01 }, { 1.19, 1.01 }, { 2.00, 1.01 }, { 2.44, 1.01 },
+			{ 0.14, 1.36 }, { 0.56, 1.36 }, { 1.40, 1.36 }, { 1.80, 1.36 }, { 2.66, 1.36 }, { 3.05, 1.36 },
+			{ 0.75, 1.70 }, { 1.19, 1.70 }, { 2.00, 1.70 }, { 2.44, 1.70 }, { 0.14, 2.06 }, { 0.56, 2.06 },
+			{ 1.40, 2.06 }, { 1.80, 2.06 }, { 2.66, 2.06 }, { 3.05, 2.06 }, { 0.75, 2.42 }, { 1.19, 2.42 },
+			{ 2.00, 2.42 }, { 2.44, 2.42 }, { 0.56, 2.77 }, { 1.40, 2.77 }, { 1.80, 2.77 }, { 2.66, 2.77 },
+			{ 1.19, 3.13 }, { 2.00, 3.13 } };
+	// Point correlation with Hexes on board
+	private final int[][] pointCorrelations = { { 0, 1 }, { 0, 3 }, { 1, 4 }, { 1, 2, 0 }, { 2, 3, 0 }, { 3, 8 },
+			{ 4, 5, 1 }, { 5, 2, 1 }, { 2, 7, 3 }, { 7, 8, 3 }, { 4, 9 }, { 9, 5, 4 }, { 5, 6, 2 }, { 6, 7, 2 },
+			{ 7, 13, 8 }, { 8, 13 }, { 9, 10, 5 }, { 10, 6, 5 }, { 6, 12, 7 }, { 12, 13, 7 }, { 14, 9 }, { 14, 10, 9 },
+			{ 10, 11, 6 }, { 11, 12, 6 }, { 12, 18, 13 }, { 13, 18 }, { 14, 15, 10 }, { 15, 11, 10 }, { 11, 17, 12 },
+			{ 17, 19, 12 }, { 14, 15 }, { 15, 16, 11 }, { 16, 17, 11 }, { 17, 18 }, { 15, 16 }, { 16, 17 } };
 
 	public Board() {
 		this.hexes = new ArrayList<Hex>();
 		this.points = new ArrayList<PlacePoint>();
 		this.settlements = new ArrayList<Settlement>();
+		this.cities = new ArrayList<City>();
 
 		this.initializeBoard();
 	}
 
 	public void initializeBoard() {
-		// Declare some useful variables
+		// Random for future use
 		Random ran = new Random();
 
 		// Initialize the Type of the Hexes
-		int[] typeAmounts = { 3, 3, 4, 4, 4 }; // < The amount of each type of hex. Type of hex is denoted by index
-		int counter = 0; // Counter to keep track of how many have been initialized
+		int[] typeAmounts = { 3, 3, 4, 4, 4 };
+
+		int counter = 0;
 		while (counter <= 17) {
-			int index = ran.nextInt(typeAmounts.length); // Find random index in bounds of the array
+			// Find random index in bounds of the array
+			int index = ran.nextInt(typeAmounts.length);
+
 			if (typeAmounts[index] != 0) {
-				this.hexes.add(new Hex(index + 1)); // Corrects for the index being one less because no desert
+				// Correct for desert tile index offset
+				this.hexes.add(new Hex(index + 1));
+
 				typeAmounts[index]--;
 				counter++;
 			}
 		}
-		hexes.add(6, new Hex(0)); // Adds the desert hex to the center
+		// Add desert hex to the center of the board
+		hexes.add(6, new Hex(0));
 
-		// Initialize the Amounts of the Hexes
-		ArrayList<Integer> tokenAmounts = Utils
+		// Initialize the numbers of the hexes (what you get when you roll it)
+		ArrayList<Integer> numbers = Utils
 				.intArraytoArrayList(new int[] { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 });
 		for (int i = 0; i < hexes.size(); i++) {
 			if (i != 6) {
-				int index = ran.nextInt(tokenAmounts.size());
-				hexes.get(i).setAmount((int) tokenAmounts.get(index));
-				tokenAmounts.remove(index);
+				int index = ran.nextInt(numbers.size());
+				hexes.get(i).setNumber((int) numbers.get(index));
+				numbers.remove(index);
 			}
 		}
 
-		// Set hex positions on the board
-		double[][] hexPositions = { { 1.26, 0.00 }, { 0.63, 0.36 }, { 1.26, 0.71 }, { 1.89, 0.36 }, { 0.00, 0.71 },
-				{ 0.63, 1.07 }, { 1.26, 1.42 }, { 1.89, 1.07 }, { 2.52, 0.71 }, { 0.00, 1.42 }, { 0.63, 1.78 },
-				{ 1.26, 2.13 }, { 1.89, 1.78 }, { 2.52, 1.42 }, { 0.00, 2.13 }, { 0.63, 2.49 }, { 1.26, 2.84 },
-				{ 1.89, 2.49 }, { 2.52, 2.13 } };
+		// Set Hex positions
 		double scale = 164;
 		for (int i = hexPositions.length - 1; i >= 0; i--) {
-			hexes.get(i).setX((int) (hexPositions[i][0] * scale));
-			hexes.get(i).setY((int) (hexPositions[i][1] * scale));
+			hexes.get(i).setX((int) (hexPositions[i][0] * scale) + 200);
+			hexes.get(i).setY((int) (hexPositions[i][1] * scale) + 50);
 		}
 
-		// For Testing: Color the tiles
+		// Set the color of the Hexes
 		String[] nameMap = { "desert", "bricks", "ore", "sheep", "timber", "wheat" };
 		for (int i = 0; i < hexes.size(); i++) {
 			int type = hexes.get(i).getType();
@@ -68,19 +96,16 @@ public class Board extends GameObject {
 		}
 
 		// Setup the PlacePoints on the board
-		double[][] pointPositions = { { 1.19, 0.29 }, { 2.00, 0.29 }, { 0.56, 0.65 }, { 1.40, 0.65 }, { 1.80, 0.65 },
-				{ 2.66, 0.65 }, { 0.75, 1.01 }, { 1.19, 1.01 }, { 2.00, 1.01 }, { 2.44, 1.01 }, { 0.14, 1.36 },
-				{ 0.56, 1.36 }, { 1.40, 1.36 }, { 1.80, 1.36 }, { 2.66, 1.36 }, { 3.05, 1.36 }, { 0.75, 1.70 },
-				{ 1.19, 1.70 }, { 2.00, 1.70 }, { 2.44, 1.70 }, { 0.14, 2.06 }, { 0.56, 2.06 }, { 1.40, 2.06 },
-				{ 1.80, 2.06 }, { 2.66, 2.06 }, { 3.05, 2.06 }, { 0.75, 2.42 }, { 1.19, 2.42 }, { 2.00, 2.42 },
-				{ 2.44, 2.42 }, { 0.56, 2.77 }, { 1.40, 2.77 }, { 1.80, 2.77 }, { 2.66, 2.77 }, { 1.19, 3.13 },
-				{ 2.00, 3.13 } };
-		for (int i = pointPositions.length - 1; i >= 0; i--) {
-			points.add(new PlacePoint((int) (pointPositions[i][0] * scale) + 5,
-					(int) (pointPositions[i][1] * scale) + 5, 20));
-			points.get(points.size() - 1).setVisible(true);
-		}
+		for (int i = 0; i < pointPositions.length; i++) {
+			// Add new point using coordinates, scale factor from before, and arb val
+			points.add(new PlacePoint((int) (pointPositions[i][0] * scale) + 5 + 200,
+					(int) (pointPositions[i][1] * scale) + 5 + 50, 20));
 
+			// Setup surrounding hexes
+			for (int a = 0; a < this.pointCorrelations[i].length; a++) {
+				this.points.get(points.size() - 1).getSurroundingHexes().add(this.hexes.get(a));
+			}
+		}
 	}
 
 	// Utility methods for the GameHandler to use
@@ -136,6 +161,14 @@ public class Board extends GameObject {
 
 	public void setSettlements(ArrayList<Settlement> settlements) {
 		this.settlements = settlements;
+	}
+
+	public ArrayList<City> getCities() {
+		return this.cities;
+	}
+
+	public void setCities(ArrayList<City> cities) {
+		this.cities = cities;
 	}
 
 	public ArrayList<PlacePoint> getPoints() {

@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import player.Player;
+
 public class GUI {
 	BufferedImage area;
-	private int width, height;
-	private int x, y;
+	private int x, y, width, height;
 	private Color backgroundColor;
+	private PlayerInfo info;
 
+	// Constructor
 	public GUI(int x, int y, int width, int height) {
 		area = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		this.width = width;
@@ -17,8 +20,10 @@ public class GUI {
 		this.x = x;
 		this.y = y;
 		this.backgroundColor = Color.WHITE;
+		this.info = new PlayerInfo(this.x, this.y, this.width, this.height);
 	}
 
+	// Obligatory Render
 	public void render(Graphics g) {
 		// Grab graphics of image
 		Graphics imgGraphics = this.area.getGraphics();
@@ -27,11 +32,18 @@ public class GUI {
 		imgGraphics.setColor(this.backgroundColor);
 		imgGraphics.fillRect(0, 0, this.area.getWidth(), this.area.getHeight());
 
+		// Render info
+		this.info.render(imgGraphics);
+
 		// Draw modified image
 		g.drawImage(this.area, this.x, this.y, null);
 	}
 
 	// Getters and Setters
+	public void setPlayer(Player player) {
+		this.info.setPlayer(player);
+	}
+	
 	public Graphics getGraphics() {
 		return this.area.getGraphics();
 	}
