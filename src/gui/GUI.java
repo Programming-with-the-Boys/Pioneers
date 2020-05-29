@@ -11,6 +11,7 @@ public class GUI {
 	private int x, y, width, height;
 	private Color backgroundColor;
 	private PlayerInfo info;
+	private DiceInfo diceInfo;
 
 	// Constructor
 	public GUI(int x, int y, int width, int height) {
@@ -20,7 +21,6 @@ public class GUI {
 		this.x = x;
 		this.y = y;
 		this.backgroundColor = Color.WHITE;
-		this.info = new PlayerInfo(this.x, this.y, this.width, this.height);
 	}
 
 	// Obligatory Render
@@ -35,6 +35,9 @@ public class GUI {
 		// Render info
 		this.info.render(imgGraphics);
 
+		// Render last dice
+		this.diceInfo.render(imgGraphics);
+
 		// Draw modified image
 		g.drawImage(this.area, this.x, this.y, null);
 	}
@@ -43,7 +46,19 @@ public class GUI {
 	public void setPlayer(Player player) {
 		this.info.setPlayer(player);
 	}
-	
+
+	public void setInfo(PlayerInfo info) {
+		this.info = info;
+	}
+
+	public void setDiceInfo(DiceInfo diceInfo) {
+		this.diceInfo = diceInfo;
+	}
+
+	public DiceInfo getDiceInfo() {
+		return this.diceInfo;
+	}
+
 	public Graphics getGraphics() {
 		return this.area.getGraphics();
 	}

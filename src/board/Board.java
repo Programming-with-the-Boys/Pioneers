@@ -1,6 +1,7 @@
 package board;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
@@ -99,6 +100,14 @@ public class Board extends GameObject {
 			int type = hexes.get(i).getType();
 			String path = "/images/hex" + nameMap[type] + ".png";
 			hexes.get(i).setImage(ImageHandler.loadImage(path));
+		}
+
+		// Fill in numbers on the Hexes
+		for (int i = 0; i < this.hexes.size(); i++) {
+			Graphics hexGraphics = hexes.get(i).getImage().getGraphics();
+			
+			hexGraphics.setColor(Color.CYAN);
+			hexGraphics.setFont(new Font("Corbel", Font.PLAIN, 35));
 		}
 
 		// Setup the PlacePoints on the board

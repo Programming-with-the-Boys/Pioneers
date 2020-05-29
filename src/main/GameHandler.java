@@ -1,14 +1,15 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
 
 import board.Board;
 import board.PlacePoint;
 import board.Settlement;
+import gui.DiceInfo;
 import gui.GUI;
+import gui.PlayerInfo;
 import player.LocalPlayer;
 import player.Player;
 
@@ -20,19 +21,24 @@ public class GameHandler {
 	private MouseEventListener mouseListener;
 
 	public void setupGame(Game game, MouseEventListener mouseListener) {
-		// SetupStuff?
+		// Initialize Variables
 		this.gameBoard = new Board();
 		this.game = game;
 		this.mouseListener = mouseListener;
-		this.infoGUI = new GUI(0, 700, 1000, 300);
-
-		// Test Setup
 		this.players = new ArrayList<Player>();
+		
+		
+		this.infoGUI = new GUI(0, 700, 1000, 300);
+		this.infoGUI.setInfo(new PlayerInfo(this.infoGUI.getX(), this.infoGUI.getY(), this.infoGUI.getWidth(), this.infoGUI.getHeight()));
+		this.infoGUI.setDiceInfo(new DiceInfo(this.infoGUI.getWidth() - 200, 30));
+
+		// Test Player Setup
 		this.players.add(new LocalPlayer("Bot1"));
 		this.players.add(new LocalPlayer("Bot2"));
+		
+		Player p = new LocalPlayer("Hi");
 
 		this.initialPlacement();
-		this.infoGUI.setPlayer(players.get(0));
 	}
 
 	public void render(Graphics graphics) {
@@ -43,15 +49,40 @@ public class GameHandler {
 	public void initialPlacement() {
 		// Go top to bottom placing settlments
 		for (int i = 0; i < this.players.size(); i++) {
+			// Update player information
+			this.infoGUI.setPlayer(players.get(i));
+
+			// Place settlement
 			this.placeSettlement(this.players.get(i));
 			// TODO: Place roads (here)
 		}
 
 		// Go from bottom to top placing settlements
 		for (int i = this.players.size() - 1; i >= 0; i--) {
+			// Update player information
+			this.infoGUI.setPlayer(players.get(i));
+
 			this.placeSettlement(this.players.get(i));
 		}
+	}
 
+	public void runGame() {
+		Random ran = new Random();
+		while (!this.wonGame(this.players)) {
+			for(int i = 0; i < this.players.size(); i++) {
+				// Roll dice
+				int roll = (ran.nextInt(11) + 1);
+				
+				// Update GUI
+				this.infoGUI.getDiceInfo().setLastRoll(roll);
+				this.game.render();
+				
+				
+				
+				
+			}
+			
+		}
 	}
 
 	public void placeSettlement(Player p) {
@@ -89,12 +120,21 @@ public class GameHandler {
 		game.render();
 	}
 
+	public boolean wonGame(ArrayList<Player> players) {
+		for (Player player : this.players) {
+			if (player.getVictoryPoints() >= 10) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void placeRoad(Player p) {
 
 	}
 
-	public void obtainResources(int diceRoll) {
-		
+	public void obtainResources(int diceRoll, Player player) {
+
 	}
 
 	// Getters and Setters
