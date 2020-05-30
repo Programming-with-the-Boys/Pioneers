@@ -15,6 +15,7 @@ public class Board extends GameObject {
 	// Setup storage for things
 	private ArrayList<Hex> hexes;
 	private ArrayList<PlacePoint> points;
+	private ArrayList<RoadPoint> roadPoints;
 	private ArrayList<Settlement> settlements;
 	private ArrayList<City> cities;
 
@@ -48,6 +49,7 @@ public class Board extends GameObject {
 	public Board() {
 		this.hexes = new ArrayList<Hex>();
 		this.points = new ArrayList<PlacePoint>();
+		this.roadPoints = new ArrayList<RoadPoint>();
 		this.settlements = new ArrayList<Settlement>();
 		this.cities = new ArrayList<City>();
 
@@ -113,6 +115,7 @@ public class Board extends GameObject {
 		}
 
 		// Setup PlacePoints
+
 		for (int a = 0; a < this.pointPositions.length; a++) {
 			// Set X and Y
 			int x = (int) (pointPositions[a][0] * scale) + 5 + 200;
@@ -129,6 +132,23 @@ public class Board extends GameObject {
 			// Add new Point
 			this.points.add(new PlacePoint(x, y, 20, surroundingHexes));
 		}
+
+		// For Testing: RoadPoints init
+		double[][] roadOffsets = { { 1.801, 0 }, { 3.151, 0.780 }, { 3.151, 2.339 }, { 1.801, 3.119 }, { 0.450, 2.339 },
+				{ 0.450, 0.780 } };
+		for (Hex hex : this.hexes) {
+			int hexX = hex.getX();
+			int hexY = hex.getY();
+
+			int adjustment = 38;
+			for (int i = 0; i < roadOffsets.length; i++) {
+				int offsetX = (int) (roadOffsets[i][0] * adjustment);
+				int offsetY = (int) (roadOffsets[i][1] * adjustment);
+
+				this.roadPoints.add(new RoadPoint(hexX + offsetX - 8, hexY + offsetY - 8, 15));
+			}
+		}
+
 	}
 
 	// Utility methods for the GameHandler to use
@@ -174,6 +194,10 @@ public class Board extends GameObject {
 		}
 		// Render PlacePoints
 		for (PlacePoint value : points) {
+			value.render(graphics);
+		}
+		// Render RoadPoints
+		for (RoadPoint value : roadPoints) {
 			value.render(graphics);
 		}
 		// Render Settlements
