@@ -70,21 +70,15 @@ public class GameHandler {
 	public void runGame() {
 		Random ran = new Random();
 		while (!this.wonGame(this.players)) {
-			for (int i = 0; i < this.players.size(); i++) {
-				// Roll dice
+			for (int i = 0; i < this.players.size(); i++) { // Roll dice
 				int roll = (ran.nextInt(6) + 1) + (ran.nextInt(6) + 1);
-				
+
 				// Give resources to player
 				this.obtainResources(roll, this.players.get(i));
-				
+
 				// Update GUI
 				this.infoGUI.getDiceInfo().setLastRoll(roll);
 				this.game.render();
-				
-				
-				
-				
-
 
 				while (true) {
 					game.render();
@@ -94,7 +88,7 @@ public class GameHandler {
 		}
 	}
 
-	public void placeSettlement(Player p) {
+	public void placeSettlement(Player player) {
 		// Get points for testing
 		ArrayList<PlacePoint> points = this.gameBoard.getPoints();
 
@@ -106,19 +100,35 @@ public class GameHandler {
 
 		boolean placed = false;
 		while (!placed) {
-			this.game.render(); // Keeps the game rendering
+			// Render the Game
+			this.game.render();
+
+			// If the mouse is clicked:
 			if (mouseListener.keys[1]) {
-				// Find whether it intersects
+
+				// Go through all the points
 				for (int i = 0; i < points.size(); i++) {
+					// Declare point for ease
 					PlacePoint point = points.get(i);
+
+					// If the mouse is on the selected object and it is enabled
 					if (point.onObject(mouseListener.x, mouseListener.y) && point.isEnabled()) {
+						// Add new Settlement
 						this.gameBoard.getSettlements()
-								.add(new Settlement(point.getX() - 6, point.getY() - 6, p, point));
+								.add(new Settlement(point.getX() - 6, point.getY() - 6, player, point));
+
+						// Disable the point and make it invisible
 						point.setEnabled(false);
 						point.setVisible(false);
+
+						// Disable all the surrounding points
 						this.gameBoard.disableSurroundingPoints(point);
-						p.addVictoryPoints(1);
-						placed = true; // Stop loop
+
+						// Add requisite VPs
+						player.addVictoryPoints(1);
+
+						// Stop the loop
+						placed = true;
 					}
 				}
 			}
@@ -148,7 +158,6 @@ public class GameHandler {
 				for (Hex hex : settlement.getSurroundingHexes()) {
 					if (hex.getNumber() == diceRoll) {
 						player.getResources()[hex.getType() - 1]++;
-						System.out.println(hex.getType());
 					}
 				}
 			}
