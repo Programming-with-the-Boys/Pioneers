@@ -1,6 +1,7 @@
 package board;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class PlacePoint extends GameObject {
 
 	private ArrayList<Hex> surroundingHexes;
 
+	public int position;
+	
 	public PlacePoint(int x, int y, int size) {
 		this.x = x;
 		this.y = y;
@@ -40,6 +43,9 @@ public class PlacePoint extends GameObject {
 		if (this.isVisible) {
 			graphics.fillOval(x - size + 15, y - size + 15, size, size);
 		}
+		graphics.setColor(Color.ORANGE);
+		graphics.setFont(new Font("Corbel", Font.BOLD, 15));
+		graphics.drawString(position + "", x + 5, y + 10);
 	}
 
 	@Override

@@ -45,6 +45,9 @@ public class Board extends GameObject {
 			{ 9, 19, 15 }, { 14 }, { 11, 21, 17 }, { 12, 16, 22 }, { 13, 23, 19 }, { 14, 18, 24 }, { 21 },
 			{ 16, 20, 26 }, { 17, 27, 23 }, { 18, 22, 28 }, { 19, 29, 25 }, { 24 }, { 21, 30, 27 }, { 22, 26, 31 },
 			{ 23, 32, 29 }, { 24, 28, 33 }, { 26 }, { 27, 34, 32 }, { 31, 28, 35 }, { 29 }, { 31 }, { 32 } };
+	// RoadPoint correlation with center of Hex
+	private final double[][] roadPointOffsets = { { 1.801, 0 }, { 3.151, 0.780 }, { 3.151, 2.339 }, { 1.801, 3.119 },
+			{ 0.450, 2.339 }, { 0.450, 0.780 } };
 
 	public Board() {
 		this.hexes = new ArrayList<Hex>();
@@ -115,7 +118,6 @@ public class Board extends GameObject {
 		}
 
 		// Setup PlacePoints
-
 		for (int a = 0; a < this.pointPositions.length; a++) {
 			// Set X and Y
 			int x = (int) (pointPositions[a][0] * scale) + 5 + 200;
@@ -133,25 +135,52 @@ public class Board extends GameObject {
 			this.points.add(new PlacePoint(x, y, 20, surroundingHexes));
 		}
 
-		// For Testing: RoadPoints init
-		double[][] roadOffsets = { { 1.801, 0 }, { 3.151, 0.780 }, { 3.151, 2.339 }, { 1.801, 3.119 }, { 0.450, 2.339 },
-				{ 0.450, 0.780 } };
+		// Setup RoadPoints
 		for (Hex hex : this.hexes) {
 			int hexX = hex.getX();
 			int hexY = hex.getY();
 
-			int adjustment = 38;
-			for (int i = 0; i < roadOffsets.length; i++) {
-				int offsetX = (int) (roadOffsets[i][0] * adjustment);
-				int offsetY = (int) (roadOffsets[i][1] * adjustment);
+			// Setup new scale variable
+			int adjustment = 37;
 
-				this.roadPoints.add(new RoadPoint(hexX + offsetX - 8, hexY + offsetY - 8, 15));
+			// Go through all of the point offsets
+			for (int i = 0; i < roadPointOffsets.length; i++) {
+				// Get offset from top left of Hex
+				int offsetX = (int) (roadPointOffsets[i][0] * adjustment);
+				int offsetY = (int) (roadPointOffsets[i][1] * adjustment);
+				// Declare random (?) variable to subtract by
+				int arbOffset = 8;
+
+				// Check if another RoadPoint already has this positions
+				boolean onAnother = false;
+
+				// Go through the points
+				for (int a = 0; a < this.roadPoints.size(); a++) {
+					if (this.roadPoints.get(a).onObject(hexX + offsetX - arbOffset, hexY + offsetY - arbOffset)) {
+						onAnother = true;
+					}
+				}
+
+				// If not on another one add
+				if (!onAnother) {
+					this.roadPoints.add(new RoadPoint(hexX + offsetX - 8, hexY + offsetY - 8, 15));
+				}
 			}
+		}
+
+		// For Testing: Show Number in Array
+		for (int i = 0; i < this.roadPoints.size(); i++) {
+			this.roadPoints.get(i).position = i;
+		}
+
+		// For Testing: Show Number in Array (PlacePoint)
+		for (int i = 0; i < this.points.size(); i++) {
+			this.points.get(i).position = i;
 		}
 
 	}
 
-	// Utility methods for the GameHandler to use
+	// Utility methods for the GameHandler
 
 	// Show points if they are enabled
 	public void showPoints() {
@@ -216,32 +245,16 @@ public class Board extends GameObject {
 		return hexes;
 	}
 
-	public void setHexes(ArrayList<Hex> hexes) {
-		this.hexes = hexes;
-	}
-
 	public ArrayList<Settlement> getSettlements() {
 		return settlements;
-	}
-
-	public void setSettlements(ArrayList<Settlement> settlements) {
-		this.settlements = settlements;
 	}
 
 	public ArrayList<City> getCities() {
 		return this.cities;
 	}
 
-	public void setCities(ArrayList<City> cities) {
-		this.cities = cities;
-	}
-
 	public ArrayList<PlacePoint> getPoints() {
 		return this.points;
-	}
-
-	public void setPoints(ArrayList<PlacePoint> points) {
-		this.points = points;
 	}
 
 }
