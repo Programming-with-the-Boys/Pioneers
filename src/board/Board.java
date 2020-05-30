@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import main.ImageHandler;
@@ -36,7 +37,7 @@ public class Board extends GameObject {
 			{ 4, 5, 1 }, { 5, 2, 1 }, { 2, 7, 3 }, { 7, 8, 3 }, { 4, 9 }, { 9, 5, 4 }, { 5, 6, 2 }, { 6, 7, 2 },
 			{ 7, 13, 8 }, { 8, 13 }, { 9, 10, 5 }, { 10, 6, 5 }, { 6, 12, 7 }, { 12, 13, 7 }, { 14, 9 }, { 14, 10, 9 },
 			{ 10, 11, 6 }, { 11, 12, 6 }, { 12, 18, 13 }, { 13, 18 }, { 14, 15, 10 }, { 15, 11, 10 }, { 11, 17, 12 },
-			{ 17, 19, 12 }, { 14, 15 }, { 15, 16, 11 }, { 16, 17, 11 }, { 17, 18 }, { 15, 16 }, { 16, 17 } };
+			{ 17, 18, 12 }, { 14, 15 }, { 15, 16, 11 }, { 16, 17, 11 }, { 17, 18 }, { 15, 16 }, { 16, 17 } };
 	// Point correlation with surrounding points
 	private final int[][] pointSurroundings = { { 3 }, { 4 }, { 6 }, { 0, 7, 4 }, { 1, 3, 8 }, { 9 }, { 2, 11, 7 },
 			{ 3, 6, 12 }, { 4, 13, 9 }, { 5, 8, 14 }, { 11 }, { 6, 10, 16 }, { 7, 17, 13 }, { 8, 12, 18 },
@@ -57,7 +58,7 @@ public class Board extends GameObject {
 		// Random for future use
 		Random ran = new Random();
 
-		// Setup the Hexes for the game
+		// Setup the Hexes
 		double scale = 164;
 		int[] typeAmounts = { 0, 3, 3, 4, 4, 4 };
 		ArrayList<Integer> numbers = Utils
@@ -109,6 +110,24 @@ public class Board extends GameObject {
 
 				hexes.add(new Hex(x, y, 0, 0, hexImage));
 			}
+		}
+
+		// Setup PlacePoints
+		for (int a = 0; a < this.pointPositions.length; a++) {
+			// Set X and Y
+			int x = (int) (pointPositions[a][0] * scale) + 5 + 200;
+			int y = (int) (pointPositions[a][1] * scale) + 5 + 50;
+
+			// Compile ArrayList of surrounding Hexes
+			ArrayList<Hex> surroundingHexes = new ArrayList<Hex>();
+			int[] hexIDs = this.pointCorrelations[a];
+
+			for (int b = 0; b < hexIDs.length; b++) {
+				surroundingHexes.add(this.hexes.get(hexIDs[b]));
+			}
+
+			// Add new Point
+			this.points.add(new PlacePoint(x, y, 20, surroundingHexes));
 		}
 	}
 

@@ -24,6 +24,16 @@ public class PlacePoint extends GameObject {
 		this.surroundingHexes = new ArrayList<Hex>();
 	}
 
+	public PlacePoint(int x, int y, int size, ArrayList<Hex> surroundingHexes) {
+		this.x = x;
+		this.y = y;
+		this.size = size;
+		this.enabled = true;
+		this.isVisible = false;
+		this.bounds = new Rectangle(size, size);
+		this.surroundingHexes = surroundingHexes;
+	}
+
 	@Override
 	void render(Graphics graphics) {
 		graphics.setColor(Color.RED);
@@ -71,7 +81,7 @@ public class PlacePoint extends GameObject {
 	public boolean getVisible() {
 		return this.isVisible;
 	}
-	
+
 	public ArrayList<Hex> getSurroundingHexes() {
 		return this.surroundingHexes;
 	}

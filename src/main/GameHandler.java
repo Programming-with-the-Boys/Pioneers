@@ -73,28 +73,18 @@ public class GameHandler {
 			for (int i = 0; i < this.players.size(); i++) {
 				// Roll dice
 				int roll = (ran.nextInt(6) + 1) + (ran.nextInt(6) + 1);
-				// int roll = 10;
-
+				
+				// Give resources to player
+				this.obtainResources(roll, this.players.get(i));
+				
 				// Update GUI
 				this.infoGUI.getDiceInfo().setLastRoll(roll);
 				this.game.render();
+				
+				
+				
+				
 
-				for (Settlement settlement : this.gameBoard.getSettlements()) {
-					System.out.println(settlement.toString());
-
-					if (settlement.getOwner().equals(this.players.get(i))) {
-						System.out.println(settlement.getOwner().getName());
-
-						for (Hex hex : settlement.getSurroundingHexes()) {
-							System.out.println(hex.toString());
-
-							if (hex.getNumber() == roll) {
-								this.players.get(i).getResources()[hex.getType() - 1]++;
-								System.out.println(hex.getType());
-							}
-						}
-					}
-				}
 
 				while (true) {
 					game.render();
@@ -153,7 +143,16 @@ public class GameHandler {
 	}
 
 	public void obtainResources(int diceRoll, Player player) {
-
+		for (Settlement settlement : this.gameBoard.getSettlements()) {
+			if (settlement.getOwner().equals(player)) {
+				for (Hex hex : settlement.getSurroundingHexes()) {
+					if (hex.getNumber() == diceRoll) {
+						player.getResources()[hex.getType() - 1]++;
+						System.out.println(hex.getType());
+					}
+				}
+			}
+		}
 	}
 
 	// Getters and Setters
