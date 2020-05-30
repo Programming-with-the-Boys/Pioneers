@@ -72,8 +72,8 @@ public class GameHandler {
 		while (!this.wonGame(this.players)) {
 			for (int i = 0; i < this.players.size(); i++) {
 				// Roll dice
-				// int roll = (ran.nextInt(11) + 1);
-				int roll = 10;
+				int roll = (ran.nextInt(6) + 1) + (ran.nextInt(6) + 1);
+				// int roll = 10;
 
 				// Update GUI
 				this.infoGUI.getDiceInfo().setLastRoll(roll);
@@ -81,13 +81,13 @@ public class GameHandler {
 
 				for (Settlement settlement : this.gameBoard.getSettlements()) {
 					System.out.println(settlement.toString());
-					
+
 					if (settlement.getOwner().equals(this.players.get(i))) {
 						System.out.println(settlement.getOwner().getName());
-						
+
 						for (Hex hex : settlement.getSurroundingHexes()) {
 							System.out.println(hex.toString());
-							
+
 							if (hex.getNumber() == roll) {
 								this.players.get(i).getResources()[hex.getType() - 1]++;
 								System.out.println(hex.getType());
@@ -95,8 +95,8 @@ public class GameHandler {
 						}
 					}
 				}
-				
-				while(true) {
+
+				while (true) {
 					game.render();
 				}
 			}

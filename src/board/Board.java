@@ -3,10 +3,10 @@ package board;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import main.Game;
 import main.ImageHandler;
 import utils.Utils;
 
@@ -57,17 +57,19 @@ public class Board extends GameObject {
 		// Random for future use
 		Random ran = new Random();
 
+		// Setup the Hexes for the game
 		double scale = 164;
 		int[] typeAmounts = { 0, 3, 3, 4, 4, 4 };
 		ArrayList<Integer> numbers = Utils
 				.intArraytoArrayList(new int[] { 2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12 });
-		
+		String[] fileNameKey = { "desert", "bricks", "ore", "sheep", "timber", "wheat" };
+
 		for (int i = 0; i < this.hexPositions.length; i++) {
 			if (i != 6) {
 				// Get X and Y Coordinates
 				int x = (int) (hexPositions[i][0] * scale) + 200;
 				int y = (int) (hexPositions[i][1] * scale) + 50;
-				
+
 				// Get type
 				int type = 0;
 				int amount = typeAmounts[type];
@@ -79,8 +81,20 @@ public class Board extends GameObject {
 				// Get Number
 				Integer number = numbers.get(ran.nextInt(numbers.size()));
 
+				// Get Image
+				BufferedImage hexImage = ImageHandler.loadImage("/images/hex" + fileNameKey[type] + ".png");
+
+				// Modify image with number
+				Graphics imageGraphics = hexImage.getGraphics();
+
+				imageGraphics.setColor(Color.ORANGE);
+				imageGraphics.setFont(new Font("Carlito", Font.BOLD, 120));
+				String drawString = "" + number;
+				imageGraphics.drawString(drawString, hexImage.getWidth() / 2 - drawString.length() * 30,
+						hexImage.getHeight() / 2 + 30);
+
 				// Add the object
-				hexes.add(new Hex(x, y, type, number));
+				hexes.add(new Hex(x, y, type, number, hexImage));
 
 				// Clean up
 				numbers.remove(number);
@@ -90,7 +104,10 @@ public class Board extends GameObject {
 				int x = (int) (hexPositions[i][0] * scale) + 200;
 				int y = (int) (hexPositions[i][1] * scale) + 50;
 
-				hexes.add(new Hex(x, y, 0, 0));
+				// Set Image
+				BufferedImage hexImage = ImageHandler.loadImage("/images/hex" + fileNameKey[0] + ".png");
+
+				hexes.add(new Hex(x, y, 0, 0, hexImage));
 			}
 		}
 	}

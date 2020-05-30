@@ -42,6 +42,14 @@ public class Hex extends GameObject {
 		this.image = ImageHandler.loadImage("/images/hex.png");
 	}
 
+	public Hex(int x, int y, int type, int number, BufferedImage image) {
+		this.x = x;
+		this.y = y;
+		this.type = type;
+		this.number = number;
+		this.image = image;
+	}
+
 	@Override
 	void render(Graphics graphics) {
 		// The divide by 4 is to make it smaller
