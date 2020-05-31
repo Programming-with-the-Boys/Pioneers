@@ -14,8 +14,6 @@ public class PlacePoint extends GameObject {
 	private boolean isVisible;
 
 	private ArrayList<Hex> surroundingHexes;
-
-	public int position;
 	
 	public PlacePoint(int x, int y, int size) {
 		this.x = x;
@@ -43,9 +41,6 @@ public class PlacePoint extends GameObject {
 		if (this.isVisible) {
 			graphics.fillOval(x - size + 15, y - size + 15, size, size);
 		}
-		graphics.setColor(Color.ORANGE);
-		graphics.setFont(new Font("Corbel", Font.BOLD, 15));
-		graphics.drawString(position + "", x + 5, y + 10);
 	}
 
 	@Override

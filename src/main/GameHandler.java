@@ -93,7 +93,7 @@ public class GameHandler {
 		ArrayList<PlacePoint> points = this.gameBoard.getPoints();
 
 		// Make PlacePoints visible
-		this.gameBoard.showPoints();
+		this.gameBoard.showPlacePoints();
 
 		// Forcibly render the game to show points
 		game.render();
@@ -135,7 +135,7 @@ public class GameHandler {
 		}
 
 		// Make PlacePoints invisible again
-		this.gameBoard.hidePoints();
+		this.gameBoard.hidePlacePoints();
 		game.render();
 	}
 

@@ -13,10 +13,6 @@ public class RoadPoint extends GameObject {
 	private boolean enabled;
 	private boolean isVisible;
 
-	private PlacePoint[] surroundingPlacePoints;
-
-	public int position;
-
 	public RoadPoint(int x, int y, int size) {
 		this.x = x;
 		this.y = y;
@@ -24,7 +20,6 @@ public class RoadPoint extends GameObject {
 		this.enabled = true;
 		this.isVisible = true;
 		this.bounds = new Rectangle(size, size);
-		this.surroundingPlacePoints = new PlacePoint[2];
 	}
 
 	public RoadPoint(int x, int y, int size, PlacePoint[] surroundingPlacePoints) {
@@ -34,7 +29,6 @@ public class RoadPoint extends GameObject {
 		this.enabled = true;
 		this.isVisible = false;
 		this.bounds = new Rectangle(size, size);
-		this.surroundingPlacePoints = surroundingPlacePoints;
 	}
 
 	@Override
@@ -43,9 +37,6 @@ public class RoadPoint extends GameObject {
 		if (this.isVisible) {
 			graphics.fillOval(x - size + 15, y - size + 15, size, size);
 		}
-		graphics.setColor(Color.MAGENTA);
-		graphics.setFont(new Font("Corbel", Font.BOLD, 15));
-		graphics.drawString(position + "", x + 5, y + 10);
 	}
 
 	@Override

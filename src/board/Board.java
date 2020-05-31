@@ -48,6 +48,7 @@ public class Board extends GameObject {
 	// RoadPoint correlation with center of Hex
 	private final double[][] roadPointOffsets = { { 1.801, 0 }, { 3.151, 0.780 }, { 3.151, 2.339 }, { 1.801, 3.119 },
 			{ 0.450, 2.339 }, { 0.450, 0.780 } };
+	// 
 
 	public Board() {
 		this.hexes = new ArrayList<Hex>();
@@ -168,22 +169,12 @@ public class Board extends GameObject {
 			}
 		}
 
-		// For Testing: Show Number in Array
-		for (int i = 0; i < this.roadPoints.size(); i++) {
-			this.roadPoints.get(i).position = i;
-		}
-
-		// For Testing: Show Number in Array (PlacePoint)
-		for (int i = 0; i < this.points.size(); i++) {
-			this.points.get(i).position = i;
-		}
-
 	}
 
 	// Utility methods for the GameHandler
 
 	// Show points if they are enabled
-	public void showPoints() {
+	public void showPlacePoints() {
 		// Only show points if enabled
 		for (PlacePoint point : this.points) {
 			if (point.isEnabled()) {
@@ -193,7 +184,7 @@ public class Board extends GameObject {
 	}
 
 	// Sets the visibility of all points to invisible
-	public void hidePoints() {
+	public void hidePlacePoints() {
 		for (PlacePoint point : this.points) {
 			point.setVisible(false);
 		}
