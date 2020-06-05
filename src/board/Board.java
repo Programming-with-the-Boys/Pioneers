@@ -135,7 +135,8 @@ public class Board extends GameObject {
 			// Add new Point
 			this.points.add(new PlacePoint(x, y, 20, surroundingHexes));
 		}
-
+		
+		/*
 		// Setup RoadPoints
 		for (Hex hex : this.hexes) {
 			int hexX = hex.getX();
@@ -167,7 +168,7 @@ public class Board extends GameObject {
 					this.roadPoints.add(new RoadPoint(hexX + offsetX - 8, hexY + offsetY - 8, 15));
 				}
 			}
-		}
+		} */
 
 	}
 
