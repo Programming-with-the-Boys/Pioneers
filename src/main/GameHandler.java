@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,6 +7,8 @@ import java.util.Random;
 import board.Board;
 import board.Hex;
 import board.PlacePoint;
+import board.Road;
+import board.RoadPoint;
 import board.Settlement;
 import gui.DiceInfo;
 import gui.GUI;
@@ -53,9 +54,11 @@ public class GameHandler {
 			// Update player information
 			this.infoGUI.setPlayer(players.get(i));
 
-			// Place settlement
+			// Place Settlement
 			this.placeSettlement(this.players.get(i));
-			// TODO: Place roads (here)
+
+			// Place Road
+			this.placeRoad(this.players.get(i));
 		}
 
 		// Go from bottom to top placing settlements
@@ -63,7 +66,11 @@ public class GameHandler {
 			// Update player information
 			this.infoGUI.setPlayer(players.get(i));
 
+			// Place Settlement 2
 			this.placeSettlement(this.players.get(i));
+
+			// Place Road 2
+			this.placeRoad(this.players.get(i));
 		}
 	}
 
@@ -148,8 +155,56 @@ public class GameHandler {
 		return false;
 	}
 
-	public void placeRoad(Player p) {
+	// Temporary Testing
+	public void placeRoad(Player player) {
+		// Get RoadPoints for testing
+		ArrayList<RoadPoint> points = this.gameBoard.getRoadPoints();
 
+		boolean placed = false;
+
+		while (!placed) {
+			// Render the Game
+			this.game.render();
+
+			// If the mouse is clicked:
+			if (mouseListener.keys[1]) {
+
+				// Go through all the points
+				for (int i = 0; i < points.size(); i++) {
+
+					// Declare point for ease
+					RoadPoint point = points.get(i);
+
+					// If the mouse is on the selected object and it is enabled
+					if (point.onObject(mouseListener.x, mouseListener.y) && point.isEnabled()) {
+						
+						// Check to make sure that a Settlement or Road is next to it
+						boolean validPlace = false;
+						
+						// Check Settlement
+						ArrayList<PlacePoint> testPoints = point.getSurroundingPlacePoints();
+						for (Settlement value : this.gameBoard.getSettlements()) {
+							for (PlacePoint testPlacePoint : testPoints) {
+								if (value.getOriginPoint().equals(testPlacePoint)) {
+									validPlace = true;
+								}
+							}
+						}
+
+						if (validPlace) {
+							// Add Road
+							this.gameBoard.getRoads().add(new Road(point, player));
+
+							// Disable the Point
+							point.setEnabled(false);
+
+							// Stop the loop
+							placed = true;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void obtainResources(int diceRoll, Player player) {

@@ -41,6 +41,10 @@ public class Settlement extends GameObject {
 	}
 
 	// Getters and Setters
+	public PlacePoint getOriginPoint() {
+		return this.originPoint;
+	}
+	
 	public Player getOwner() {
 		return this.owner;
 	}
